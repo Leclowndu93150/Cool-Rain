@@ -12,13 +12,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.WeatherEffectRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ParticleStatus;
+import net.minecraft.client.ParticleStatus;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -27,6 +27,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -35,57 +36,73 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-@Mixin(WeatherEffectRenderer.class)
+@Mixin(LevelRenderer.class)
 public abstract class RainMixin {
 
     @Shadow
     private int rainSoundTime;
+    
+    @Shadow
+    private Minecraft minecraft;
+    
+    @Shadow
+    public abstract int getTicks();
 
-    @Inject(method = "tickRainParticles", at = @At("HEAD"), cancellable = true)
-    public void addParticlesAndSound(ClientLevel world, Camera camera, int ticks, ParticleStatus particlesMode, CallbackInfo ci) {
+    @Inject(method = "tickRain", at = @At("HEAD"), cancellable = true)
+    public void tickRain(Camera camera, CallbackInfo ci) {
+        ClientLevel world = (ClientLevel) this.minecraft.level;
+        if (world == null) return;
+        
         float rainLevel = world.getRainLevel(1.0F) / (Minecraft.useFancyGraphics() ? 1.0F : 2.0F);
         if (rainLevel <= 0.0F) {
             return;
         }
 
-        RandomSource random = RandomSource.create((long) ticks * 312987231L);
+        RandomSource random = RandomSource.create((long) this.getTicks() * 312987231L);
+        LevelReader levelReader = world;
         BlockPos cameraPos = BlockPos.containing(camera.getPosition());
         BlockPos soundPos = null;
-        int particleCount = (int) (100.0F * rainLevel * rainLevel) / (particlesMode == ParticleStatus.DECREASED ? 2 : 1);
+        int particleCount = (int) (100.0F * rainLevel * rainLevel) / (this.minecraft.options.particles().get() == ParticleStatus.DECREASED ? 2 : 1);
 
         for (int i = 0; i < particleCount; i++) {
             int offsetX = random.nextInt(21) - 10;
             int offsetZ = random.nextInt(21) - 10;
-            BlockPos heightmapPos = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, cameraPos.offset(offsetX, 0, offsetZ));
+            BlockPos heightmapPos = levelReader.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, cameraPos.offset(offsetX, 0, offsetZ));
             
-            if (heightmapPos.getY() > world.getMinY()
+            if (heightmapPos.getY() > levelReader.getMinBuildHeight()
                     && heightmapPos.getY() <= cameraPos.getY() + 10
-                    && heightmapPos.getY() >= cameraPos.getY() - 10
-                    && getPrecipitationAt(world, heightmapPos) == Biome.Precipitation.RAIN) {
+                    && heightmapPos.getY() >= cameraPos.getY() - 10) {
                 
-                soundPos = heightmapPos.below();
-                if (particlesMode == ParticleStatus.MINIMAL) {
-                    break;
-                }
+                Biome biome = levelReader.getBiome(heightmapPos).value();
+                if (biome.getPrecipitationAt(heightmapPos) == Biome.Precipitation.RAIN) {
+                    soundPos = heightmapPos.below();
+                    if (this.minecraft.options.particles().get() == ParticleStatus.MINIMAL) {
+                        break;
+                    }
 
-                double particleX = random.nextDouble();
-                double particleZ = random.nextDouble();
-                BlockState blockState = world.getBlockState(soundPos);
-                FluidState fluidState = world.getFluidState(soundPos);
-                VoxelShape shape = blockState.getCollisionShape(world, soundPos);
-                double shapeHeight = shape.max(Direction.Axis.Y, particleX, particleZ);
-                double fluidHeight = fluidState.getHeight(world, soundPos);
-                double maxHeight = Math.max(shapeHeight, fluidHeight);
-                
-                ParticleOptions particleType = getParticleType(blockState, fluidState);
-                world.addParticle(particleType, soundPos.getX() + particleX, soundPos.getY() + maxHeight, soundPos.getZ() + particleZ, 0.0, 0.0, 0.0);
+                    double particleX = random.nextDouble();
+                    double particleZ = random.nextDouble();
+                    BlockState blockState = levelReader.getBlockState(soundPos);
+                    FluidState fluidState = levelReader.getFluidState(soundPos);
+                    VoxelShape shape = blockState.getCollisionShape(levelReader, soundPos);
+                    double shapeHeight = shape.max(Direction.Axis.Y, particleX, particleZ);
+                    double fluidHeight = fluidState.getHeight(levelReader, soundPos);
+                    double maxHeight = Math.max(shapeHeight, fluidHeight);
+                    
+                    ParticleOptions particleType = getParticleType(blockState, fluidState);
+                    this.minecraft.level.addParticle(particleType, 
+                        (double) soundPos.getX() + particleX, 
+                        (double) soundPos.getY() + maxHeight, 
+                        (double) soundPos.getZ() + particleZ, 
+                        0.0, 0.0, 0.0);
+                }
             }
         }
 
         if (soundPos != null && random.nextInt(3) < this.rainSoundTime++) {
             this.rainSoundTime = 0;
-            BlockState blockState = world.getBlockState(soundPos);
-            boolean isMuffled = isMuffledSound(world, soundPos, cameraPos);
+            BlockState blockState = levelReader.getBlockState(soundPos);
+            boolean isMuffled = isMuffledSound(levelReader, soundPos, cameraPos);
             
             playRainSound(world, soundPos, blockState, random, isMuffled);
         }
@@ -101,7 +118,7 @@ public abstract class RainMixin {
     }
 
     @Unique
-    private boolean isMuffledSound(ClientLevel world, BlockPos soundPos, BlockPos cameraPos) {
+    private boolean isMuffledSound(LevelReader world, BlockPos soundPos, BlockPos cameraPos) {
         return soundPos.getY() > cameraPos.getY() + 1
                 && world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, cameraPos).getY() > Mth.floor((float) cameraPos.getY());
     }
@@ -234,12 +251,4 @@ public abstract class RainMixin {
                 && sound != SoundEvents.WEATHER_RAIN;
     }
 
-    @Unique
-    private Biome.Precipitation getPrecipitationAt(Level world, BlockPos pos) {
-        if (!world.getChunkSource().hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
-            return Biome.Precipitation.NONE;
-        }
-        Biome biome = world.getBiome(pos).value();
-        return biome.getPrecipitationAt(pos, world.getSeaLevel());
-    }
 }

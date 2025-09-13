@@ -1,6 +1,7 @@
 package com.leclowndu93150.coolrain;
 
 import com.leclowndu93150.coolrain.tags.ModTags;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
