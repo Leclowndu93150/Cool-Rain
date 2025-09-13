@@ -1,0 +1,161 @@
+{
+  "rain_sounds_metal": {
+    "subtitle": "sounds.coolrain.rain_sounds_metal",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_metal_1",
+      "coolrain:rain_sounds_metal_2",
+      "coolrain:rain_sounds_metal_3",
+      "coolrain:rain_sounds_metal_4",
+      "coolrain:rain_sounds_metal_5",
+      "coolrain:rain_sounds_metal_6",
+      "coolrain:rain_sounds_metal_7",
+      "coolrain:rain_sounds_metal_8",
+      "coolrain:rain_sounds_metal_9",
+      "coolrain:rain_sounds_metal_10"
+
+    ]
+  },
+  "rain_sounds_fabric": {
+    "subtitle": "sounds.coolrain.rain_sounds_fabric",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_fabric_1",
+      "coolrain:rain_sounds_fabric_2",
+      "coolrain:rain_sounds_fabric_3",
+      "coolrain:rain_sounds_fabric_4",
+      "coolrain:rain_sounds_fabric_5",
+      "coolrain:rain_sounds_fabric_6"
+
+
+    ]
+  },
+  "rain_sounds_fabric_muffled": {
+    "subtitle": "sounds.coolrain.rain_sounds_fabric_muffled",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_fabric_muffled_1",
+      "coolrain:rain_sounds_fabric_muffled_2",
+      "coolrain:rain_sounds_fabric_muffled_3",
+      "coolrain:rain_sounds_fabric_muffled_4",
+      "coolrain:rain_sounds_fabric_muffled_5",
+      "coolrain:rain_sounds_fabric_muffled_6"
+
+
+    ]
+  },
+  "rain_sounds_glass_muffled": {
+    "subtitle": "sounds.coolrain.rain_sounds_glass_muffled",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_glass_muffled_1",
+      "coolrain:rain_sounds_glass_muffled_2",
+      "coolrain:rain_sounds_glass_muffled_3",
+      "coolrain:rain_sounds_glass_muffled_4",
+      "coolrain:rain_sounds_glass_muffled_5",
+      "coolrain:rain_sounds_glass_muffled_6"
+
+
+    ]
+  },
+  "rain_sounds_metal_muffled": {
+    "subtitle": "sounds.coolrain.rain_sounds_metal_muffled",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_metal_muffled_1",
+      "coolrain:rain_sounds_metal_muffled_2",
+      "coolrain:rain_sounds_metal_muffled_3"
+
+
+    ]
+  },
+  "rain_sounds_foliage": {
+    "subtitle": "sounds.coolrain.rain_sounds_foliage",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_foliage_1",
+      "coolrain:rain_sounds_foliage_2",
+      "coolrain:rain_sounds_foliage_3",
+      "coolrain:rain_sounds_foliage_4",
+      "coolrain:rain_sounds_foliage_5",
+      "coolrain:rain_sounds_foliage_6"
+    ]
+  },
+  "rain_sounds_glass": {
+    "subtitle": "sounds.coolrain.rain_sounds_glass",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_glass_1",
+      "coolrain:rain_sounds_glass_2",
+      "coolrain:rain_sounds_glass_3",
+      "coolrain:rain_sounds_glass_4",
+      "coolrain:rain_sounds_glass_5",
+      "coolrain:rain_sounds_glass_6"
+    ]
+  },
+  "rain_sounds_water": {
+    "subtitle": "sounds.coolrain.rain_sounds_water",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_water_1",
+      "coolrain:rain_sounds_water_2",
+      "coolrain:rain_sounds_water_3",
+      "coolrain:rain_sounds_water_4",
+      "coolrain:rain_sounds_water_5",
+      "coolrain:rain_sounds_water_6"
+    ]
+  },
+  "rain_sounds_amethyst": {
+    "subtitle": "sounds.coolrain.rain_sounds_amethyst",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_amethyst_1",
+      "coolrain:rain_sounds_amethyst_2",
+      "coolrain:rain_sounds_amethyst_3",
+      "coolrain:rain_sounds_amethyst_4",
+      "coolrain:rain_sounds_amethyst_5",
+      "coolrain:rain_sounds_amethyst_6",
+      "coolrain:rain_sounds_amethyst_7"
+    ]
+  },
+  "rain_sounds_noteblock": {
+    "subtitle": "sounds.coolrain.rain_sounds_noteblock",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_noteblock_1",
+      "coolrain:rain_sounds_noteblock_2",
+      "coolrain:rain_sounds_noteblock_3",
+      "coolrain:rain_sounds_noteblock_4",
+      "coolrain:rain_sounds_noteblock_5",
+      "coolrain:rain_sounds_noteblock_6",
+      "coolrain:rain_sounds_noteblock_7",
+      "coolrain:rain_sounds_noteblock_8",
+      "coolrain:rain_sounds_noteblock_9",
+      "coolrain:rain_sounds_noteblock_10",
+      "coolrain:rain_sounds_noteblock_11",
+      "coolrain:rain_sounds_noteblock_12",
+      "coolrain:rain_sounds_noteblock_13",
+      "coolrain:rain_sounds_noteblock_14",
+      "coolrain:rain_sounds_noteblock_15",
+      "coolrain:rain_sounds_noteblock_16"
+    ]
+  },
+  "rain_sounds_lava": {
+    "subtitle": "sounds.coolrain.rain_sounds_lava",
+    "stream": true,
+    "sounds": [
+      "coolrain:rain_sounds_lava_1",
+      "coolrain:rain_sounds_lava_2",
+      "coolrain:rain_sounds_lava_3",
+      "coolrain:rain_sounds_lava_4",
+      "coolrain:rain_sounds_lava_5",
+      "coolrain:rain_sounds_lava_6",
+      "coolrain:rain_sounds_lava_7",
+      "coolrain:rain_sounds_lava_8",
+      "coolrain:rain_sounds_lava_9",
+      "coolrain:rain_sounds_lava_10",
+      "coolrain:rain_sounds_lava_11",
+      "coolrain:rain_sounds_lava_12"
+    ]
+  }
+}
