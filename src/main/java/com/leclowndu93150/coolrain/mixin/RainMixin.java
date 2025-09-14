@@ -2,6 +2,7 @@ package com.leclowndu93150.coolrain.mixin;
 
 import com.leclowndu93150.coolrain.CoolRainSounds;
 import com.leclowndu93150.coolrain.tags.ModTags;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -39,12 +40,10 @@ public abstract class RainMixin {
 
     @Shadow
     private int rainSoundTime;
-    
-    @Shadow
-    private Minecraft minecraft;
-    
-    @Shadow
-    public abstract int getTicks();
+
+    @Shadow @Final private Minecraft minecraft;
+
+    @Shadow(remap = false) public abstract int getTicks();
 
     @Inject(method = "tickRain", at = @At("HEAD"), cancellable = true)
     public void tickRain(Camera camera, CallbackInfo ci) {
@@ -165,11 +164,10 @@ public abstract class RainMixin {
         }
 
         if (blockState.is(ModTags.Blocks.METAL_BLOCKS) 
-                || blockState.is(ModTags.Blocks.C_METAL_BLOCKS)
-                || blockState.is(ModTags.Blocks.C_STORAGE_BLOCKS_IRON)
-                || blockState.is(ModTags.Blocks.C_STORAGE_BLOCKS_COPPER)
-                || blockState.is(ModTags.Blocks.C_STORAGE_BLOCKS_GOLD)
-                || blockState.is(ModTags.Blocks.C_STORAGE_BLOCKS_NETHERITE)
+                || blockState.is(ModTags.Blocks.FORGE_STORAGE_BLOCKS_IRON)
+                || blockState.is(ModTags.Blocks.FORGE_STORAGE_BLOCKS_COPPER)
+                || blockState.is(ModTags.Blocks.FORGE_STORAGE_BLOCKS_GOLD)
+                || blockState.is(ModTags.Blocks.FORGE_STORAGE_BLOCKS_NETHERITE)
                 || blockState.is(Blocks.IRON_BLOCK) || blockState.is(Blocks.GOLD_BLOCK) 
                 || blockState.is(Blocks.NETHERITE_BLOCK) || blockState.is(Blocks.COPPER_BLOCK)
                 || blockState.is(Blocks.RAW_IRON_BLOCK) || blockState.is(Blocks.RAW_COPPER_BLOCK) 
@@ -179,9 +177,8 @@ public abstract class RainMixin {
         }
 
         if (blockState.is(ModTags.Blocks.GLASS_BLOCKS) 
-                || blockState.is(ModTags.Blocks.C_GLASS_BLOCKS)
-                || blockState.is(ModTags.Blocks.C_GLASS_PANES)
-                || blockState.is(ModTags.Blocks.C_ICE)
+                || blockState.is(ModTags.Blocks.FORGE_GLASS_BLOCKS)
+                || blockState.is(ModTags.Blocks.FORGE_GLASS_PANES)
                 || blockState.is(Blocks.GLASS) || blockState.is(Blocks.TINTED_GLASS)
                 || blockState.is(Blocks.ICE) || blockState.is(Blocks.BLUE_ICE) || blockState.is(Blocks.PACKED_ICE)) {
             return CoolRainSounds.RAIN_SOUNDS_GLASS.get();
@@ -194,7 +191,6 @@ public abstract class RainMixin {
         }
 
         if (blockState.is(ModTags.Blocks.FOLIAGE_BLOCKS) 
-                || blockState.is(ModTags.Blocks.C_LEAVES)
                 || blockState.is(BlockTags.LEAVES)) {
             return CoolRainSounds.RAIN_SOUNDS_FOLIAGE.get();
         }

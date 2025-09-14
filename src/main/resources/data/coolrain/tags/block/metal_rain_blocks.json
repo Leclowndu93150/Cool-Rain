@@ -1,6 +1,12 @@
 {
   "replace": false,
   "values": [
+    "#forge:storage_blocks",
+    "#forge:storage_blocks/iron",
+    "#forge:storage_blocks/gold",
+    "#forge:storage_blocks/copper",
+    "#forge:storage_blocks/netherite",
+    "#forge:ores",
     "minecraft:copper_block",
     "minecraft:weathered_copper",
     "minecraft:exposed_copper",

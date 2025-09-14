@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "#forge:glass",
+    "#forge:glass_panes",
     "minecraft:glass",
     "minecraft:tinted_glass",
     "minecraft:ice",

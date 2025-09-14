@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'idea'
-    id 'net.neoforged.moddev' version '2.0.107'
+    id 'net.neoforged.moddev.legacyforge' version '2.+'
 }
 
 version = mod_version
@@ -10,17 +10,20 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    maven {
+        url = "https://cursemaven.com"
+    }
 }
 
 base {
-    archivesName = mod_id+"-1.21.1-NeoForge"
+    archivesName = mod_id+"-1.20.1-Forge"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-neoForge {
+legacyForge {
     // Specify the version of NeoForge to use.
-    version = project.neo_version
+    version = "1.20.1-47.3.0"
 
     parchment {
         mappingsVersion = project.parchment_mappings_version
@@ -86,26 +89,20 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 
 dependencies {
-    // Example mod dependency with JEI
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    // compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
-    // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    // Example mod dependency using a mod jar from ./libs with a flat dir repository
-    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
-    // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
+}
 
-    // Example mod dependency using a file as dependency
-    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
 
-    // Example project dependency using a sister or child project:
-    // implementation project(":myproject")
+    config "${mod_id}.mixins.json"
+}
 
-    // For more info:
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+jar {
+    manifest.attributes([
+            "MixinConfigs": "coolrain.mixins.json"
+    ])
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -132,7 +129,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 // this works with both building through Gradle and the IDE.
 sourceSets.main.resources.srcDir generateModMetadata
 // To avoid having to run "generateModMetadata" manually, make it run on every project reload
-neoForge.ideSyncTask generateModMetadata
+legacyForge.ideSyncTask generateModMetadata
 
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
