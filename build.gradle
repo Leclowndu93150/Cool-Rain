@@ -16,14 +16,14 @@ repositories {
 }
 
 base {
-    archivesName = mod_id+"-1.19.2-Forge"
+    archivesName = mod_id+"-1.18.2-Forge"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 legacyForge {
     // Specify the version of NeoForge to use.
-    version = "1.19.2-43.5.1"
+    version = "1.18.2-40.3.11"
 
     parchment {
         mappingsVersion = project.parchment_mappings_version

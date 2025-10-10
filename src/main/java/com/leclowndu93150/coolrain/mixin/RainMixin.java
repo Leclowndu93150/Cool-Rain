@@ -25,7 +25,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
+import java.util.Random;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -55,11 +55,11 @@ public abstract class RainMixin {
             return;
         }
 
-        RandomSource random = RandomSource.create((long) this.ticks * 312987231L);
+        Random random = new Random((long) this.ticks * 312987231L);
         LevelReader levelReader = world;
         BlockPos cameraPos = new BlockPos(camera.getPosition());
         BlockPos soundPos = null;
-        int particleCount = (int) (100.0F * rainLevel * rainLevel) / (this.minecraft.options.particles().get() == ParticleStatus.DECREASED ? 2 : 1);
+        int particleCount = (int) (100.0F * rainLevel * rainLevel) / (this.minecraft.options.particles == ParticleStatus.DECREASED ? 2 : 1);
 
         for (int i = 0; i < particleCount; i++) {
             int offsetX = random.nextInt(21) - 10;
@@ -73,7 +73,7 @@ public abstract class RainMixin {
                 Biome biome = levelReader.getBiome(heightmapPos).value();
                 if (biome.getPrecipitation() == Biome.Precipitation.RAIN) {
                     soundPos = heightmapPos.below();
-                    if (this.minecraft.options.particles().get() == ParticleStatus.MINIMAL) {
+                    if (this.minecraft.options.particles == ParticleStatus.MINIMAL) {
                         break;
                     }
 
@@ -121,7 +121,7 @@ public abstract class RainMixin {
     }
 
     @Unique
-    private void playRainSound(ClientLevel world, BlockPos pos, BlockState blockState, RandomSource random, boolean isMuffled) {
+    private void playRainSound(ClientLevel world, BlockPos pos, BlockState blockState, Random random, boolean isMuffled) {
         SoundEvent sound = getRainSoundForBlock(blockState);
         float volume = getRainSoundVolume(blockState, isMuffled);
         float pitch = getRainSoundPitch(blockState, random);
@@ -185,7 +185,7 @@ public abstract class RainMixin {
         }
 
         if (blockState.is(ModTags.Blocks.FABRIC_BLOCKS)
-                || blockState.is(BlockTags.WOOL) || blockState.is(BlockTags.WOOL_CARPETS) 
+                || blockState.is(BlockTags.WOOL) || blockState.is(BlockTags.CARPETS)
                 || blockState.is(BlockTags.BEDS)) {
             return CoolRainSounds.RAIN_SOUNDS_FABRIC.get();
         }
@@ -222,7 +222,7 @@ public abstract class RainMixin {
     }
 
     @Unique
-    private float getRainSoundPitch(BlockState blockState, RandomSource random) {
+    private float getRainSoundPitch(BlockState blockState, Random random) {
         SoundEvent sound = getRainSoundForBlock(blockState);
 
         if (sound == CoolRainSounds.RAIN_SOUNDS_FOLIAGE.get() || sound == CoolRainSounds.RAIN_SOUNDS_LAVA.get()) {
@@ -232,7 +232,7 @@ public abstract class RainMixin {
         } else if (sound == SoundEvents.WEATHER_RAIN) {
             return 1.0F;
         } else {
-            return random.nextIntBetweenInclusive(8, 12) * 0.1F;
+            return (random.nextInt(5) + 8) * 0.1F;
         }
     }
 
