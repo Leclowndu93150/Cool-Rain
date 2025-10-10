@@ -1,6 +1,6 @@
 package com.leclowndu93150.coolrain.tags;
 
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -59,11 +59,11 @@ public class ModTags {
                 createForgeTag("ores");
 
         private static TagKey<Block> createTag(String name) {
-            return TagKey.create(Registries.BLOCK,new ResourceLocation("coolrain", name));
+            return TagKey.create(Registry.BLOCK.key(),new ResourceLocation("coolrain", name));
         }
 
         private static TagKey<Block> createForgeTag(String name) {
-            return TagKey.create(Registries.BLOCK, new ResourceLocation("forge", name));
+            return TagKey.create(Registry.BLOCK.key(), new ResourceLocation("forge", name));
         }
 
         public static void registerTags() {

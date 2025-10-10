@@ -26,6 +26,6 @@ public class CoolRainSounds {
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = new ResourceLocation(CoolRain.MODID, name);
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
+        return SOUND_EVENTS.register(name, () -> new SoundEvent(id));
     }
 }

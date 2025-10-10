@@ -43,7 +43,7 @@ public abstract class RainMixin {
 
     @Shadow @Final private Minecraft minecraft;
 
-    @Shadow(remap = false) public abstract int getTicks();
+    @Shadow private int ticks;
 
     @Inject(method = "tickRain", at = @At("HEAD"), cancellable = true)
     public void tickRain(Camera camera, CallbackInfo ci) {
@@ -55,9 +55,9 @@ public abstract class RainMixin {
             return;
         }
 
-        RandomSource random = RandomSource.create((long) this.getTicks() * 312987231L);
+        RandomSource random = RandomSource.create((long) this.ticks * 312987231L);
         LevelReader levelReader = world;
-        BlockPos cameraPos = BlockPos.containing(camera.getPosition());
+        BlockPos cameraPos = new BlockPos(camera.getPosition());
         BlockPos soundPos = null;
         int particleCount = (int) (100.0F * rainLevel * rainLevel) / (this.minecraft.options.particles().get() == ParticleStatus.DECREASED ? 2 : 1);
 
@@ -71,7 +71,7 @@ public abstract class RainMixin {
                     && heightmapPos.getY() >= cameraPos.getY() - 10) {
                 
                 Biome biome = levelReader.getBiome(heightmapPos).value();
-                if (biome.getPrecipitationAt(heightmapPos) == Biome.Precipitation.RAIN) {
+                if (biome.getPrecipitation() == Biome.Precipitation.RAIN) {
                     soundPos = heightmapPos.below();
                     if (this.minecraft.options.particles().get() == ParticleStatus.MINIMAL) {
                         break;
