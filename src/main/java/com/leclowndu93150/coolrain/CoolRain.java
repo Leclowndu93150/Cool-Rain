@@ -1,5 +1,6 @@
 package com.leclowndu93150.coolrain;
 
+import com.leclowndu93150.coolrain.network.NetworkHandler;
 import com.leclowndu93150.coolrain.tags.ModTags;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -12,8 +13,9 @@ public class CoolRain {
 
     public CoolRain() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        CoolRainSounds.SOUND_EVENTS.register(modEventBus);
+        NetworkHandler.init();
         if(FMLLoader.getDist().isClient()){
-            CoolRainSounds.SOUND_EVENTS.register(modEventBus);
             ModTags.Blocks.registerTags();
         }
     }
