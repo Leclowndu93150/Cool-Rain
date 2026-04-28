@@ -1,7 +1,7 @@
 package com.leclowndu93150.coolrain;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -26,7 +26,7 @@ public class CoolRainSounds {
     public static final Supplier<SoundEvent> RAIN_SOUNDS_GLASS_MUFFLED = registerSoundEvent("rain_sounds_glass_muffled");
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(CoolRain.MODID, name);
+        Identifier id = Identifier.fromNamespaceAndPath(CoolRain.MODID, name);
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
     }
 }

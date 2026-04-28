@@ -1,7 +1,7 @@
 package com.leclowndu93150.coolrain.tags;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
@@ -71,11 +71,11 @@ public class ModTags {
                 createCommonTag("ice");
 
         private static TagKey<Block> createTag(String name) {
-            return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("coolrain", name));
+            return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("coolrain", name));
         }
 
         private static TagKey<Block> createCommonTag(String name) {
-            return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", name));
+            return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("c", name));
         }
 
         public static void registerTags() {

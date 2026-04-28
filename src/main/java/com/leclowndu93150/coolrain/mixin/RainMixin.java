@@ -28,7 +28,7 @@ public abstract class RainMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V")
     )
     private void redirectRainSound(ClientLevel world, BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch, boolean distanceDelay) {
-        BlockPos cameraPos = BlockPos.containing(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition());
+        BlockPos cameraPos = BlockPos.containing(Minecraft.getInstance().gameRenderer.getMainCamera().position());
         BlockState blockState = world.getBlockState(pos);
         RandomSource random = world.getRandom();
 
